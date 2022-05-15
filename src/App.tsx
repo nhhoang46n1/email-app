@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+import Dashboard from "./Page/Dashboard/Dashboard";
+import Login from "./Page/Login/Login";
 
-function App() {
+const App: React.FC = () => {
+  let navigate = useNavigate();
+
+  const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    if (!isLogin) {
+      navigate("/login");
+    }
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/*" element={<Navigate to="/login" />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/main/*" element={<Dashboard />} />
+    </Routes>
   );
-}
+};
 
 export default App;
